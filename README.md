@@ -1,10 +1,17 @@
-# Simulation of Neural network with Inhibitor Neural Cells
-Neural Network Dynamics with Inhibitory NeuronsThe ceaseless dynamics introduced by inhibitory neurons are essential for the brain's ability to process information, maintain flexibility, and adapt to new situations. In a study by Larremore et al., the significance of these dynamics is highlighted. Without inhibition, networks of excitable nodes would not exhibit behaviors necessary for normal brain function.
-Model DescriptionWe simulated a model of a neural network with 10,000 nodes, where only twenty percent of them play the role of inhibitors (corresponding to the fraction of inhibitory neurons in the mammalian cortex). At each discrete time step (t), every node (m) can exist in one of two states:
-- Active state: (s_m(t) = 1)
-- Inactive state: (s_m(t) = 0)
-When a node (m) is in the active state ((s_m(t) = 1)), a node (n) receives an input of strength (A_{nm}). Conversely, when a node (m) is in the inactive state ((s_m(t) = 0)), no input is transmitted. Each node (m) is categorized as either excitatory or inhibitory, corresponding to (A_{nm} \geq 0) or (A_{nm} \leq 0) for all (n), respectively. If there is no connection from a node (n) to node (m), then (A_{nm} = 0).
-Node State UpdateAt each time step (t), each node (n) computes the weighted sum of its inputs and passes the result through a transfer function (\sigma(\cdot)). This process determines the node's state at time (t+1):
-[ s_n(t + 1) = 1 \quad \text{with probability} \quad \sigma\left(\sum_{m=1}^{N} A_{nm} s_m(t)\right) ]
+# Understanding the Role of Inhibitory Neurons in Neural Network Dynamics
+
+The ceaseless dynamics introduced by inhibitory neurons are essential for the brain's ability to process information, maintain flexibility, and adapt to new situations. The study by Larremore et al. highlights the significance of these dynamics, showing that without inhibition, networks of excitable nodes would not exhibit behaviors necessary for normal brain function.
+
+To delve into this further, we initiated our exploration by simulating a model of a neural network comprising 10,000 nodes, with only twenty percent of them functioning as inhibitors (reflecting the fraction of inhibitory neurons in the mammalian cortex). 
+
+In our model, each node can exist in one of two states at each discrete time step \( t \): \( s_m(t) = 0 \) or \( s_m(t) = 1 \). When a node \( m \) is in the active state \( s_m(t) = 1 \), it sends an input of strength \( A_{nm} \) to node \( n \), whereas in the inactive state \( s_m(t) = 0 \), no input is sent. 
+
+Nodes are categorized as either excitatory or inhibitory, corresponding to \( A_{nm} \geq 0 \) or \( A_{nm} \leq 0 \), respectively, for all \( n \). If there is no connection from node \( n \) to node \( m \), then \( A_{nm} = 0 \). 
+
+At each time step \( t \), each node \( n \) computes the weighted sum of its inputs and passes the result through a transfer function \( \sigma(\cdot) \). This process determines the node’s state at the next time step \( (t+1) \) according to the equation:
+
+\[ s_n(t + 1) = 1 \text{ with probability } \sigma\left( \sum_{m=1}^{N} A_{nm} s_m(t) \right) \]
+
+
  
 And 0 otherwise, $\sigma(x)=1$ for  $x \geq 1$, this function is equal to zero $( \sigma(x)=0 )$ for $ x \leq 0$ and $\sigma(x)=x$ for $0 <x <1$. It is worth mentioning that in the presence of excitatory inputs, the selected node may become active; however in the absence of them, or in other words the presence of net inhibitory input, it remains inactive. The probability that each node $m$ connects node $n$ is $p$. In a network of $N$ nodes, the mean of in-degree and out-degree is $ <k> =Np$. Initially, to construct the matrix $A$, each non-zero connection strength $A_{nm}$ is independently drawn from a distribution of positive numbers. While our analytical findings apply to any distribution with mean $\gamma$, in our simulations, we assume a uniform distribution on the interval $[0, 2\gamma]$. Additionally, a fraction of the nodes is designated as inhibitory, and each column of $A$ corresponding to the outgoing connections of an inhibitory node is multiplied by $-1$. Previous studies have demonstrated that the dynamics of excitable networks are well-characterized by the largest eigenvalue of the network adjacency matrix $A$, with critical behavior occurring at $\lambda=1$. To achieve a specific eigenvalue $\lambda$, we use the relation $\gamma=\lambda /[<k>(1-2)]$, which serves as an accurate approximation for large networks [7]. Our exploration covers a range of $0  \leq \alpha \leq 0.3$, including the fraction $\alpha \approx 0.2$, which corresponds to the proportion of inhibitory neurons in the mammalian cortex.
