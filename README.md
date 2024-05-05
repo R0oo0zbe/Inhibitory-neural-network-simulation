@@ -10,4 +10,4 @@ Nodes are categorized as either excitatory or inhibitory, corresponding to $\ A_
 
 At each time step $\ t \$, each node $\ n \$ computes the weighted sum of its inputs and passes the result through a transfer function $\ \sigma(\cdot) \$. This process determines the node’s state at the next time step $\ (t+1) \$ according to the equation:
 
-![equation1](https://latex.codecogs.com/svg.image?\[s_n(t&plus;1)=1\text{with&space;probability&space;of}\sigma\left(\sum_{m=1}^{N}A_{nm}s_m(t)\right)\text{,(1)}\])
+![equation1](https://latex.codecogs.com/svg.image?\bg{white}null\[s_n(t&plus;1)=1\text{with&space;probability&space;of}\sigma\left(\sum_{m=1}^{N}A_{nm}s_m(t)\right)\text{,(1)}\])
