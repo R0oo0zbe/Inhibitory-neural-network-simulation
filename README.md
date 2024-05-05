@@ -1,2 +1,2 @@
-# Inhibitory-neural-network-simulation
-This repository is added for Software and Computing Project
+# Simulation of Neural network with Inhibitor Neural Cells
+This repository is added for the Software and Computing Project
