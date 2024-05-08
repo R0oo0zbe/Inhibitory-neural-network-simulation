@@ -13,3 +13,8 @@ time_steps = 1000
 landa = 1
 
 seed = 70  
+
+
+[paths]
+
+image_path: ./images
