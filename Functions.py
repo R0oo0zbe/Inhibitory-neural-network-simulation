@@ -93,6 +93,18 @@ def multiply(matrix, node_list):
   return product_list
 
 def plot(order_parameter_list, number_nodes, alfa, landa, seed, probability):
+        """ This function will plot the behavior of the network.
+       
+    Parameters
+        order_parameter_list : A list with the size of the total number of the time steps and each value shows how many nodes are active in that time step.
+        number_nodes : Total number of neural cells.
+        alfa : Ratio of the inhibitor nodes.
+        landa : Lambda that is the largest eigenvalue of the adjacency matrix.
+        seed: the seed value is the starting point for the sequence of random numbers.
+        probability : Probability of the connection between two cells.
+    Shows:
+        A plot that shows the behavior of the system (how many nodes are active in every time step).
+        """
     plt.ylim(0,number_nodes)
     plt.plot(order_parameter_list)
     plt.xlabel("Time steps", size=12)
