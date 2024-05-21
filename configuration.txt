@@ -14,5 +14,10 @@ landa = 1
 
 seed = 70  
 
+[paths]
+
+critical_plot: ./images/critical.png
+subcritical_plot: ./images/subcritical.png
+supercritical_plot: ./images/supercritical.png
 
 
