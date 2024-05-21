@@ -7,6 +7,10 @@ Created on Tue May  7 21:56:28 2024
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import configparser
+
+
+
 
 
 def average_connection(number_nodes, probability):
@@ -92,25 +96,52 @@ def multiply(matrix, node_list):
   product_list = np.dot(node_list, matrix) 
   return product_list
 
+
 def plot(order_parameter_list, number_nodes, alfa, landa, seed, probability):
-        """ This function will plot the behavior of the network.
-       
-    Parameters
+    """ 
+    This function will plot the behavior of the network.
+    
+    Parameters:
         order_parameter_list : A list with the size of the total number of the time steps and each value shows how many nodes are active in that time step.
         number_nodes : Total number of neural cells.
         alfa : Ratio of the inhibitor nodes.
         landa : Lambda that is the largest eigenvalue of the adjacency matrix.
-        seed: the seed value is the starting point for the sequence of random numbers.
+        seed : The seed value is the starting point for the sequence of random numbers.
         probability : Probability of the connection between two cells.
+    
     Shows:
         A plot that shows the behavior of the system (how many nodes are active in every time step).
-        """
-    plt.ylim(0,number_nodes)
-    plt.plot(order_parameter_list)
+    """
+    
+    # Read the configuration file
+    config = configparser.ConfigParser()
+    config.read('./configuration.txt')
+    
+    # Get settings from the configuration file
+    landa = float(config.get('settings', 'landa'))
+    destination1 = config.get('paths', 'critical_plot')
+    destination2 = config.get('paths', 'subcritical_plot')
+    destination3 = config.get('paths', 'supercritical_plot')
+    
+    # Plotting the order parameter list
+    plt.figure(figsize=(10, 6))
+    plt.ylim(0, number_nodes)
+    plt.plot(order_parameter_list, label="Order Parameter")
     plt.xlabel("Time steps", size=12)
     plt.ylabel("Order Parameter S", size=12)
     plt.title(r"$\lambda$={} and $\alpha$={}, seed={}, probability connection={}".format(landa, alfa, seed, probability))
+    plt.legend()
+    plt.grid(True)
     plt.show()
+    
+    # Save the plot based on the value of landa
+    if landa == 1.0:
+        plt.savefig(destination1)
+    elif landa < 1.0:
+        plt.savefig(destination2)
+    else:
+        plt.savefig(destination3)
+
 
 
 
