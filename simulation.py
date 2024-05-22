@@ -7,7 +7,7 @@ Created on Wed May  8 14:58:48 2024
 
 import configparser
 import random
-import Functions as func
+from lib import Functions as func
 
 config = configparser.ConfigParser()
 config.read( 'configuration.txt')
