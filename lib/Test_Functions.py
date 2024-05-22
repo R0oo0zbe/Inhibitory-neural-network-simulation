@@ -6,7 +6,7 @@ Created on Wed May  8 16:39:20 2024
 """
 import numpy as np
 import configparser
-import Functions as func
+from lib import Functions as func
 from hypothesis import strategies as st
 from hypothesis import settings
 from hypothesis import given
