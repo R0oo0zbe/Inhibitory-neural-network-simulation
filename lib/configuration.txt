@@ -1,0 +1,9 @@
+[settings]
+
+number_nodes = 1000   
+number_active_nodes = 50
+alfa = 0.2   
+probability_connection = 0.02   
+time_steps = 1000
+landa = 1.0
+seed = 70  
