@@ -23,8 +23,8 @@ def average_connection(number_nodes: int, probability: float) -> float:
     Returns:
         float: The average connectivity of each node.
     """
-    average_connection = np.multiply(number_nodes, probability)
-    return average_connection
+    AverageConnection = number_nodes * probability
+    return AverageConnection
 
 
 
@@ -46,8 +46,8 @@ def sigma(landa: float, alfa: float, AverageConnection: int) -> float:
             The sigma with respect to the formula.
     """
     numerator = landa
-    denominator = AverageConnection * (1 - 2 * alfa)
-    sigma = np.divide(numerator, denominator)
+    denominator = AverageConnection * ( 1 - 2*alfa )
+    sigma = np.divide( numerator, denominator)
     return sigma
 
 
@@ -69,15 +69,15 @@ def create_matrix(number_nodes: int, sigma: float, probability: float, alfa: flo
         np.ndarray
             The N*N (N is the total number of neural cells) matrix with a mean weight of sigma.
     """
-    matrix = np.zeros((number_nodes, number_nodes))    
+    matrix = np.zeros((number_nodes, number_nodes))
     for i in range(number_nodes):
-        for j in range(number_nodes):
+        for j in range( number_nodes):
             if random.random() < probability:
                 strength = random.uniform(0, 2 * sigma)
-                matrix[i, j] = strength
+                matrix[i][j] = strength
     inhibitory_nodes = random.sample(range(number_nodes), int(alfa * number_nodes))
-    for node in inhibitory_nodes:
-        matrix[:, node] *= -1
+    matrix[:, inhibitory_nodes] *= -1
+    matrix=np.transpose(matrix)
     return matrix
 
 def initial_state(number_nodes: int, number_active_nodes: int):
@@ -114,10 +114,10 @@ def multiply(matrix, node_list):
             A list with N (total number of neural cells) values between 0 and 1.
     """
     
-    matrix = np.array(matrix)
-    node_list = np.array(node_list)
-    product_list = np.dot(node_list, matrix)
-    return product_list
+  matrix = np.array(matrix)
+  node_list = np.array(node_list)
+  product_list = np.dot(node_list, matrix) 
+  return product_list
 
 
 def plot(order_parameter_list, number_nodes, alfa, landa, seed, probability):
