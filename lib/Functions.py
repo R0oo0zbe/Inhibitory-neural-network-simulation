@@ -114,10 +114,10 @@ def multiply(matrix, node_list):
             A list with N (total number of neural cells) values between 0 and 1.
     """
     
-  matrix = np.array(matrix)
-  node_list = np.array(node_list)
-  product_list = np.dot(node_list, matrix) 
-  return product_list
+    matrix = np.array(matrix)
+    node_list = np.array(node_list)
+    product_list = np.dot(node_list, matrix) 
+    return product_list
 
 
 def plot(order_parameter_list, number_nodes, alfa, landa, seed, probability):
