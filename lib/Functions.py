@@ -11,90 +11,113 @@ import configparser
 
 
 
-
-
-def average_connection(number_nodes, probability):
-        """ This function multiplies the total number of neural cells and the probability of
-        the connection between two cells to reach the average connectivity of each node.
-       
-    Parameters
-        number_nodes : Total number of neural cells.
-        probability : Probability of the connection between two cells.
+def average_connection(number_nodes: int, probability: float) -> float:
+    """ 
+    This function multiplies the total number of neural cells and the probability of
+    the connection between two cells to reach the average connectivity of each node.
+    
+    Parameters:
+        number_nodes (int): Total number of neural cells.
+        probability (float): Probability of the connection between two cells.
     
     Returns:
-        The average connectivity of each node is an integer number.
-       """
-    AverageConnection = np.multiply( number_nodes, probability)
-    return AverageConnection
+        float: The average connectivity of each node.
+    """
+    average_connection = np.multiply(number_nodes, probability)
+    return average_connection
 
-def sigma(landa, alfa, AverageConnection):
-            """ This function will calculate the sigma with respect to the lambda formula that is 
-            explained in the ReadMe part.
-       
-    Parameters
-        landa : Lambda that is the largest eigenvalue of the adjacency matrix.
-        alfa : Ratio of the inhibitor nodes.
-        AverageConnection : average connectivity of each node.
+
+
+def sigma(landa: float, alfa: float, AverageConnection: int) -> float:
+    """ 
+    This function will calculate the sigma with respect to the lambda formula that is 
+    explained in the ReadMe part.
+    
+    Parameters:
+        landa : float
+            Lambda that is the largest eigenvalue of the adjacency matrix.
+        alfa : float
+            Ratio of the inhibitor nodes.
+        AverageConnection : float
+            Average connectivity of each node.
+    
     Returns:
-        The sigma with respect to the formula is a float number.
-         """
+        float
+            The sigma with respect to the formula.
+    """
     numerator = landa
-    denominator = AverageConnection * ( 1 - 2*alfa )
-    sigma = np.divide( numerator, denominator)
+    denominator = AverageConnection * (1 - 2 * alfa)
+    sigma = np.divide(numerator, denominator)
     return sigma
 
-def create_matrix(number_nodes, sigma, probability, alfa):
-            """ This function will create an adjacency matrix for the neural cells network.
-       
-            Parameters
-                number_nodes : Total number of neural cells.
-                sigma : The sigma is the mean weight of the adjacency matrix.
-                probability : Probability of the connection between two cells.
-                alfa : Ratio of the inhibitor nodes.
 
-            Returns:
-                The N*N (N is the total number of neural cells) matrix with a mean weight of sigma.
-         """
-    matrix = np.zeros((number_nodes, number_nodes))
+def create_matrix(number_nodes: int, sigma: float, probability: float, alfa: float):
+    """ 
+    This function will create an adjacency matrix for the neural cells network.
+    
+    Parameters:
+        number_nodes : int
+            Total number of neural cells.
+        sigma : float
+            The sigma is the mean weight of the adjacency matrix.
+        probability : float
+            Probability of the connection between two cells.
+        alfa : float
+            Ratio of the inhibitor nodes.
+
+    Returns:
+        np.ndarray
+            The N*N (N is the total number of neural cells) matrix with a mean weight of sigma.
+    """
+    matrix = np.zeros((number_nodes, number_nodes))    
     for i in range(number_nodes):
-        for j in range( number_nodes):
+        for j in range(number_nodes):
             if random.random() < probability:
                 strength = random.uniform(0, 2 * sigma)
-                matrix[i][j] = strength
+                matrix[i, j] = strength
     inhibitory_nodes = random.sample(range(number_nodes), int(alfa * number_nodes))
-    matrix[:, inhibitory_nodes] *= -1
-    matrix=np.transpose(matrix)
+    for node in inhibitory_nodes:
+        matrix[:, node] *= -1
     return matrix
 
-def initial_state(number_nodes, number_active_nodes):
-        """ This function will create a list with N (total number of neural cells) values
-        that values are 0 or 1 this list will be used for the initial state of the neuron cells.
-       
-    Parameters
-        number_nodes : Total number of neural cells.
-        number_active_nodes : the number of nodes that are activated in the first time step (their value is 1).
+def initial_state(number_nodes: int, number_active_nodes: int):
+    """ 
+    This function will create a list with N (total number of neural cells) values
+    that values are 0 or 1 this list will be used for the initial state of the neuron cells.
+    
+    Parameters:
+        number_nodes : int
+            Total number of neural cells.
+        number_active_nodes : int
+            The number of nodes that are activated in the first time step (their value is 1).
     
     Returns:
-        A list with N (total number of neural cells) values that values are 0 or 1.
-       """
+        numpy.ndarray
+            A list with N (total number of neural cells) values that values are 0 or 1.
+    """
     initial_states = np.zeros(number_nodes)
     initial_states[:number_active_nodes] = 1
     return initial_states
 
 def multiply(matrix, node_list):
-        """ This function will do vector product.
-       
-    Parameters
-        matrix : Adjacency matrix of the network.
-        number_active_nodes : The list of neural cells state.
+    """ 
+    This function will do a vector-matrix product.
+    
+    Parameters:
+        matrix : numpy.ndarray
+            Adjacency matrix of the network.
+        node_list : list 
+            The list of neural cells state.
     
     Returns:
-        A list with N (total number of neural cells) values is between 0 and 1.
-       """
-  matrix = np.array(matrix)
-  node_list = np.array(node_list)
-  product_list = np.dot(node_list, matrix) 
-  return product_list
+        list
+            A list with N (total number of neural cells) values between 0 and 1.
+    """
+    
+    matrix = np.array(matrix)
+    node_list = np.array(node_list)
+    product_list = np.dot(node_list, matrix)
+    return product_list
 
 
 def plot(order_parameter_list, number_nodes, alfa, landa, seed, probability):
@@ -102,28 +125,29 @@ def plot(order_parameter_list, number_nodes, alfa, landa, seed, probability):
     This function will plot the behavior of the network.
     
     Parameters:
-        order_parameter_list : A list with the size of the total number of the time steps and each value shows how many nodes are active in that time step.
-        number_nodes : Total number of neural cells.
-        alfa : Ratio of the inhibitor nodes.
-        landa : Lambda that is the largest eigenvalue of the adjacency matrix.
-        seed : The seed value is the starting point for the sequence of random numbers.
-        probability : Probability of the connection between two cells.
+        order_parameter_list : list
+            A list with the size of the total number of the time steps and each value shows how many nodes are active in that time step.
+        number_nodes : int
+            Total number of neural cells.
+        alfa : float
+            Ratio of the inhibitor nodes.
+        landa : float
+            Lambda that is the largest eigenvalue of the adjacency matrix.
+        seed : int
+            The seed value is the starting point for the sequence of random numbers.
+        probability : float
+            Probability of the connection between two cells.
     
     Shows:
         A plot that shows the behavior of the system (how many nodes are active in every time step).
     """
     
-    # Read the configuration file
     config = configparser.ConfigParser()
-    config.read('./configuration.txt')
-    
-    # Get settings from the configuration file
+    config.read('./configuration.txt')    
     landa = float(config.get('settings', 'landa'))
     destination1 = config.get('paths', 'critical_plot')
     destination2 = config.get('paths', 'subcritical_plot')
     destination3 = config.get('paths', 'supercritical_plot')
-    
-    # Plotting the order parameter list
     plt.figure(figsize=(10, 6))
     plt.ylim(0, number_nodes)
     plt.plot(order_parameter_list, label="Order Parameter")
@@ -132,29 +156,11 @@ def plot(order_parameter_list, number_nodes, alfa, landa, seed, probability):
     plt.title(r"$\lambda$={} and $\alpha$={}, seed={}, probability connection={}".format(landa, alfa, seed, probability))
     plt.legend()
     plt.grid(True)
-    plt.show()
-    
-    # Save the plot based on the value of landa
     if landa == 1.0:
         plt.savefig(destination1)
     elif landa < 1.0:
         plt.savefig(destination2)
     else:
         plt.savefig(destination3)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    plt.show()
 
