@@ -57,7 +57,7 @@ def test_initial_state(number_nodes, number_active_nodes):
     
 
 if __name__ == "__main__":
-    test_average_connection()
+    pass
 
 
 
